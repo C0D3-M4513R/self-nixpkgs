@@ -15,22 +15,19 @@ php.buildComposerProject2 ( rec {
     src = fetchFromGitHub {
         owner = "pelican-dev";
         repo = "panel";
-#        rev = "v${version}";
-        rev = "0d5b920fe5acbe73488ca6e0ba160ea3801f2089"; #Todo: WHY THE F**K won't patching the composer-files work?
-        hash = "sha256-3Kg2LCmR3XQKAT6zFN2Z/N1AjN3J+W48jy6frqPE6Oc=";
+        rev = "v${version}";
+        hash = "sha256-nyqWq9BQ2Ne1IdG1IAHNy2qRlEp/WptmGmOkcRnNwuk=";
     };
-
-    #patches = [ (fetchpatch{
-    #  url = "https://patch-diff.githubusercontent.com/raw/pelican-dev/panel/pull/1376.patch";
-    #  #hash = "sha256-N5FlNpk28pZID6JB/sVK51RPZZSnYFmm6WgxPSRXbpc=";
-    #}) ];
-
-    vendorHash = "sha256-qmdOYXjQ9ccg2DOrfN5uJvmihwEi2wti4vYI/Nf2O6Q=";
 
     yarnOfflineCache = fetchYarnDeps {
         yarnLock = src + "/yarn.lock";
         hash = "sha256-WJfLj4eM7W9QhHMG1jK/cPg2hBrK+b7xS3WwjEhm1lc=";
     };
+
+    composerStrictValidation = false;
+    #Ideally composer.patch would be applied, but I couldn't get it to apply before compose vendoring
+    #Or https://github.com/pelican-dev/panel/pull/1376 is merged
+    vendorHash = "sha256-qmdOYXjQ9ccg2DOrfN5uJvmihwEi2wti4vYI/Nf2O6Q";
 
     nativeBuildInputs = [
         yarnBuildHook
